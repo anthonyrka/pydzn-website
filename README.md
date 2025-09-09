@@ -1,5 +1,6 @@
 # pydzn-website
-A website made with pydzn
+A website made with [pydzn](https://github.com/anthonyrka/pydzn)
+
 
 ## Creating a layout & injecting components
 ```python
