@@ -5,11 +5,10 @@ from pydzn.grid_builder import layout_builder
 DashboardLayout = (
     layout_builder()
       .columns(sidebar=180, main="1fr")
-      .rows(hero="100px", subhero="100px", dsubhero="60px", content="1fr")
+      .rows(hero="20vh", subhero="10vh", content="1fr")
       .region("sidebar",  col="sidebar", row=None, row_span=None)
       .region("hero",     col="main",    row="hero")
       .region("subhero",  col="main",    row="subhero")
-      .region("dsubhero",  col="main",    row="dsubhero")
       .region("content",  col="main",    row="content")
       .build(name="DashboardLayout")
 )

@@ -3,7 +3,7 @@ from layouts.saas import DashboardLayout, DashboardContent3Cols
 # from components.nav_item.component import NavItem
 # from components.text.component import Text
 # from components.card.component import Card
-from pydzn.components.button.component import Button
+from pydzn.components import Button, Text
 # from components.drawer.component import Drawer
 
 
@@ -88,14 +88,14 @@ def app_home():
     # # Duplicate the CARD into each content column (avoid duplicating the Drawer id)
     # card_only_html = card_elem_0.render()
 
-    # content_grid = DashboardContent3Cols(
-    #     region_dzn={"col1": "p-2", "col2": "p-2", "col3": "p-2"},
-    #     debug=True,
-    # ).render(
-    #     col1=card_only_html,
-    #     col2=card_only_html,
-    #     col3=card_only_html,
-    # )
+    content_grid = DashboardContent3Cols(
+        region_dzn={"col1": "p-2", "col2": "p-2", "col3": "p-2"},
+        debug=True,
+    ).render(
+        col1=Text(text="D.1").render(),
+        col2=Text(text="D.2").render(),
+        col3=Text(text="D.3").render(),
+    )
 
     # # Add the drawer once (still inside the content area)
     # content_html = content_grid + drawer_elem.render()
@@ -103,7 +103,7 @@ def app_home():
     # hero_html = Text(text="Hero area", tag="span").render()
 
     layout = DashboardLayout(
-        region_dzn={"sidebar": "bg-elevated", "hero": "p-4", "subhero": "p-4", "dsubhero": "p-4", "content": "p-4"},
+        region_dzn={"sidebar": "bg-elevated p-4", "hero": "p-4", "subhero": "p-4", "dsubhero": "p-4", "content": "p-4"},
         debug=True,
     )
 
@@ -124,9 +124,8 @@ def app_home():
     # )
 
     return layout.render(
-        sidebar=Button(text="A").render(),
-        hero=Button(text="B").render(),
-        subhero=Button(text="C").render(),
-        dsubhero=Button(text="D").render(),
-        content=Button(text="e").render()
+        sidebar=Text(text="A").render(),
+        hero=Text(text="B").render(),
+        subhero=Text(text="C").render(),
+        content=content_grid
     )
