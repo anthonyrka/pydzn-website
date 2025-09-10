@@ -1,4 +1,4 @@
-from layouts.saas import DashboardLayout, DashboardContent3Cols
+# from layouts.saas_app import DashboardLayout, DashboardContent3Cols
 # from components.sidebar.component import Sidebar
 # from components.nav_item.component import NavItem
 # from components.text.component import Text
@@ -88,24 +88,24 @@ def app_home():
     # # Duplicate the CARD into each content column (avoid duplicating the Drawer id)
     # card_only_html = card_elem_0.render()
 
-    content_grid = DashboardContent3Cols(
-        region_dzn={"col1": "p-2", "col2": "p-2", "col3": "p-2"},
-        debug=True,
-    ).render(
-        col1=Text(text="D.1").render(),
-        col2=Text(text="D.2").render(),
-        col3=Text(text="D.3").render(),
-    )
+    # content_grid = DashboardContent3Cols(
+    #     region_dzn={"col1": "p-2", "col2": "p-2", "col3": "p-2"},
+    #     debug=True,
+    # ).render(
+    #     col1=Text(text="D.1").render(),
+    #     col2=Text(text="D.2").render(),
+    #     col3=Text(text="D.3").render(),
+    # )
 
     # # Add the drawer once (still inside the content area)
     # content_html = content_grid + drawer_elem.render()
 
     # hero_html = Text(text="Hero area", tag="span").render()
 
-    layout = DashboardLayout(
-        region_dzn={"sidebar": "bg-elevated p-4", "hero": "p-4", "subhero": "p-4", "dsubhero": "p-4", "content": "p-4"},
-        debug=True,
-    )
+    # layout = DashboardLayout(
+    #     region_dzn={"sidebar": "bg-elevated p-4", "hero": "p-4", "subhero": "p-4", "dsubhero": "p-4", "content": "p-4"},
+    #     debug=True,
+    # )
 
         # button_elem_0 = Button(
     #     text="Open Drawer",
@@ -123,9 +123,10 @@ def app_home():
     #     },
     # )
 
-    return layout.render(
-        sidebar=Text(text="A").render(),
-        hero=Text(text="B").render(),
-        subhero=Text(text="C").render(),
-        content=content_grid
-    )
+    # return layout.render(
+    #     sidebar=Text(text="A").render(),
+    #     hero=Text(text="B").render(),
+    #     subhero=Text(text="C").render(),
+    #     content=content_grid
+    # )
+    return None
