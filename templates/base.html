@@ -8,7 +8,51 @@
     <link rel="stylesheet" href="/_theme.css" />
     <!-- pydzn runtime CSS -->
     <link rel="stylesheet" href="/_dzn.css" />
-    <style>html, body { margin: 0; height: 100%; }</style>
+    <style>
+    
+    /* downloaded fonts because default is ugly */
+    @font-face{
+      font-family:'iosevkaterm nerd';
+      src:url('/static/fonts/IosevkaTermNerdFont-Regular.ttf') format('truetype');
+      font-weight:400; font-style:normal; font-display:swap;
+    }
+    @font-face{
+      font-family:'iosevkaterm nerd';
+      src:url('/static/fonts/IosevkaTermNerdFont-Bold.ttf') format('truetype');
+      font-weight:700; font-style:normal; font-display:swap;
+    }
+    @font-face{
+      font-family:'iosevkaterm nerd';
+      src:url('/static/fonts/IosevkaTermNerdFont-Italic.ttf') format('truetype');
+      font-weight:400; font-style:italic; font-display:swap;
+    }
+
+    :root {
+
+    /* typography */
+    --font-family-base: 'iosevkaterm nerd', monospace;
+    --font-size-base: 1rem;
+    --line-height-base: 1.5;
+
+    /* spacing */
+    --spacing-unit: 1rem; 
+
+    /* border-radius */
+    --radius-sm: 0.125rem;
+    --radius-md: 0.25rem;
+    }
+
+    /* minimal styling defaults */
+    html {
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-base);
+      line-height: var(--line-height-base);
+      background: var(--color-bg);
+      color: var(--color-text);
+      height: 100%;
+    }
+
+    </style>
     {% block head_extra %}{% endblock %}
   </head>
   <body>
