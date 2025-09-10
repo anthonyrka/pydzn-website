@@ -1,14 +1,14 @@
 from flask import Flask, Response, render_template
 from pydzn.dzn import compile_used_css
 from pages.app_home import app_home
-from pydzn.components import Button, Text, Card
+from pydzn.components import Button, Text, Card, NavItem, Sidebar
 from pydzn.grid_builder import layout_builder
 
 
 # Button.set_default_choices(variant="acme:danger", size="lg") # set project defaults
 
 # Set to True if you want to see layout red dotted
-DZN_DEBUG=True
+DZN_DEBUG=False
 
 app = Flask(__name__)
 
@@ -149,8 +149,20 @@ def demo_layout():
         debug=DZN_DEBUG,
     )
 
+    # Sidebar list
+    sidebar_variant = "sidebar-squared-underline"
+    items = [
+        NavItem(variant=sidebar_variant, children=Text("Overview").render()).render(),
+        NavItem(variant=sidebar_variant, children=Text("Activity").render()).render(),
+        NavItem(variant=sidebar_variant, children=Text("Reports").render()).render(),
+        NavItem(variant=sidebar_variant, children=Text("Settings").render()).render(),
+    ]
+    sidebar_html = "".join(items)
+
+    sidebar = Sidebar(variant="bare", children=sidebar_html, size="lg").render()
+
     page_content = layout.render(
-        sidebar=Text(text="A").render(),
+        sidebar=sidebar,
         hero=Text(tag="h1", text="Foo App").render(),
         subhero=Text(tag="h2", text="Created with pydzn!").render(),
         content=content_grid
