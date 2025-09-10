@@ -84,6 +84,7 @@ def demo_layout():
         .build(name="DashboardLayout")
     )
 
+
     # ----- Inner sublayout: 3 columns inside content -----
     DashboardContent3Cols = (
         layout_builder()
@@ -145,24 +146,42 @@ def demo_layout():
     )
 
     layout = DashboardLayout(
-        region_dzn={"sidebar": "bg-elevated p-4", "hero": "p-4", "subhero": "p-4", "dsubhero": "p-4", "content": "p-4"},
-        debug=DZN_DEBUG,
+        region_dzn={
+            "sidebar": "sticky top-0 h-[100vh]",      # sticky shell, no overflow here
+            "hero": "shrink-0",
+            "subhero": "shrink-0",
+            "content": "",
+        },
+        debug=False,
     )
+
 
     # Sidebar list
     sidebar_variant = "sidebar-squared-underline"
+
+    overview_item = (
+        NavItem(variant="sidebar-underline", children=Text("Overview").render())
+        .center()                           # x+y+text centering
+        .height(64)                         # fixed height
+        .full_width()                       # fill sidebar width
+        .bottom_divider("subtle")           # single line below
+        .hover(bg="rgba(37,99,235,.06)", text="#2563eb", underline="blue-500")
+        .focus(bg="rgba(37,99,235,.10)")    # optional focus wash
+        .render()
+    )
+
     items = [
-        NavItem(variant=sidebar_variant, children=Text("Overview").render()).render(),
+        overview_item,
         NavItem(variant=sidebar_variant, children=Text("Activity").render()).render(),
         NavItem(variant=sidebar_variant, children=Text("Reports").render()).render(),
         NavItem(variant=sidebar_variant, children=Text("Settings").render()).render(),
     ]
-    sidebar_html = "".join(items)
 
-    sidebar = Sidebar(variant="bare", children=sidebar_html, size="lg").render()
+    sidebar_nav_html = "".join(items)
+
 
     page_content = layout.render(
-        sidebar=sidebar,
+        sidebar=sidebar_nav_html,
         hero=Text(tag="h1", text="Foo App").render(),
         subhero=Text(tag="h2", text="Created with pydzn!").render(),
         content=content_grid
