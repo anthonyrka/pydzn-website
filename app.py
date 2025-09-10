@@ -72,18 +72,33 @@ def demo_layout():
     Construct a layout in debug mode
     """
     
-    # ----- Outer layout -----
+    # # ----- Outer layout -----
+    # DashboardLayout = (
+    #     layout_builder()
+    #     .columns(sidebar=180, main="1fr")
+    #     .rows(hero="20vh", subhero="10vh", content="1fr")
+    #     .region("sidebar",  col="sidebar", row=None, row_span=None)
+    #     .region("hero",     col="main",    row="hero")
+    #     .region("subhero",  col="main",    row="subhero")
+    #     .region("content",  col="main",    row="content")
+    #     .build(name="DashboardLayout")
+    # )
+    APPBAR = 48      # px  -> your appbar row height
+    SIDEBAR = 180    # px  -> your sidebar column width
+    HERO_H = "10vh"  #     -> your hero row height (already in rows())
+
+
     DashboardLayout = (
         layout_builder()
-        .columns(sidebar=180, main="1fr")
-        .rows(hero="20vh", subhero="10vh", content="1fr")
-        .region("sidebar",  col="sidebar", row=None, row_span=None)
-        .region("hero",     col="main",    row="hero")
-        .region("subhero",  col="main",    row="subhero")
-        .region("content",  col="main",    row="content")
+        .columns(sidebar=SIDEBAR, main="1fr")                        # 2 columns
+        .rows(appbar=f"{APPBAR}px", hero=HERO_H, subhero="10vh", content="1fr")  # add appbar row at the top
+        .region("appbar",  col="sidebar", row="appbar", col_span=2)       # spans both columns
+        .region("sidebar", col="sidebar", row="hero", row_span=None)      # start under appbar; span rest
+        .region("hero",    col="main",    row="hero")
+        .region("subhero", col="main",    row="subhero")
+        .region("content", col="main",    row="content")
         .build(name="DashboardLayout")
     )
-
 
     # ----- Inner sublayout: 3 columns inside content -----
     DashboardContent3Cols = (
@@ -147,31 +162,45 @@ def demo_layout():
 
     layout = DashboardLayout(
         region_dzn={
-            "sidebar": "sticky top-0 h-[100vh]",      # sticky shell, no overflow here
-            "hero": "shrink-0",
-            "subhero": "shrink-0",
+            "appbar":  "sticky top-0 z-[20] bg-elevated border-0 border-b border-subtle border-solid bg-[white]",
+
+            # sidebar stays fixed at the left
+            "sidebar": f"fixed top-[{APPBAR}px] left-0 w-[{SIDEBAR}px] "
+                    f"h-[calc(100vh-{APPBAR}px)] overflow-y-auto overscroll-contain" 
+                    "border-0 border-r border-subtle border-solid",
+
+            # hero fixed, offset by sidebar using margin-left, and width subtracting sidebar
+            "hero": (
+                f"fixed top-[{APPBAR}px] left-0 right-0 ml-[{SIDEBAR}px] "
+                f"h-[{HERO_H}] z-[15]"
+                "bg-elevated border-bottom bg-[white] p-4 border-0 border-b-2 border-subtle border-solid"
+            ),
+
+
+            "subhero": "p-4 shrink-0",
             "content": "",
         },
-        debug=False,
+        debug=DZN_DEBUG,
     )
 
 
     # Sidebar list
     sidebar_variant = "sidebar-squared-underline"
 
-    overview_item = (
-        NavItem(variant="sidebar-underline", children=Text("Overview").render())
-        .center()                           # x+y+text centering
-        .height(64)                         # fixed height
-        .full_width()                       # fill sidebar width
-        .bottom_divider("subtle")           # single line below
-        .hover(bg="rgba(37,99,235,.06)", text="#2563eb", underline="blue-500")
-        .focus(bg="rgba(37,99,235,.10)")    # optional focus wash
-        .render()
-    )
+    # overview_item = (
+    #     NavItem(variant="sidebar-underline", children=Text("Overview").render())
+    #     .center()                           # x+y+text centering
+    #     .height(64)                         # fixed height
+    #     .full_width()                       # fill sidebar width
+    #     .bottom_divider("subtle")           # single line below
+    #     .hover(bg="rgba(37,99,235,.06)", text="#2563eb", underline="blue-500")
+    #     .focus(bg="rgba(37,99,235,.10)")    # optional focus wash
+    #     .render()
+    # )
 
     items = [
-        overview_item,
+        # overview_item,
+        NavItem(variant=sidebar_variant, children=Text("Overview").render()).render(),
         NavItem(variant=sidebar_variant, children=Text("Activity").render()).render(),
         NavItem(variant=sidebar_variant, children=Text("Reports").render()).render(),
         NavItem(variant=sidebar_variant, children=Text("Settings").render()).render(),
@@ -179,9 +208,39 @@ def demo_layout():
 
     sidebar_nav_html = "".join(items)
 
+    SidebarNav4 = (
+        layout_builder()
+        .columns(track="1fr")  # single column
+        # 4 rows for items + a "spacer" that fills remaining height
+        .rows(item1="auto", item2="auto", item3="auto", item4="auto", spacer="1fr")
+        .region("item1",  col="track", row="item1")
+        .region("item2",  col="track", row="item2")
+        .region("item3",  col="track", row="item3")
+        .region("item4",  col="track", row="item4")
+        .region("spacer", col="track", row="spacer")
+        .build(name="SidebarNav4")
+    )
+
+    sidebar_grid = SidebarNav4(
+        # The inner sublayout handles the scrolling & height:
+        outer_dzn="h-[calc(100vh-26px)] overflow-y-auto overscroll-contain",
+        region_dzn={
+            "item1": "", "item2": "", "item3": "", "item4": "",
+            "spacer": "",   # just fills space; leave empty
+        },
+        debug=DZN_DEBUG,
+    ).render(
+        item1=NavItem(variant=sidebar_variant, children=Text("Overview").render()).render(),
+        item2=NavItem(variant=sidebar_variant, children=Text("Activity").render()).render(),
+        item3=NavItem(variant=sidebar_variant, children=Text("Reports").render()).render(),
+        item4=NavItem(variant=sidebar_variant, children=Text("Settings").render()).render(),
+        spacer="",  # nothing to render; keeps items top-aligned
+    )
+
 
     page_content = layout.render(
-        sidebar=sidebar_nav_html,
+        appbar=Text(text="appbar").render(),
+        sidebar=sidebar_grid,
         hero=Text(tag="h1", text="Foo App").render(),
         subhero=Text(tag="h2", text="Created with pydzn!").render(),
         content=content_grid
