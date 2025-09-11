@@ -1,7 +1,7 @@
 from flask import Flask, Response, render_template
 from pydzn.dzn import compile_used_css
 from pages.app_root import app_root_page
-from pages.app_client_billing import app_client_billing_page
+from pages.app_widget_billing import app_widget_billing_page
 from pages.marketing_home import marketing_home_page
 
 from pydzn.components import Button, Text, Card, NavItem, Sidebar
@@ -11,7 +11,7 @@ from pydzn.grid_builder import layout_builder
 # Button.set_default_choices(variant="acme:danger", size="lg") # set project defaults
 
 # Set to True if you want to see layout red dotted
-DZN_DEBUG=True
+DZN_DEBUG=False
 
 app = Flask(__name__)
 
@@ -72,51 +72,13 @@ def home():
 @app.get("/dashboard")
 def dashboard():
     body = app_root_page(debug=DZN_DEBUG)
-    return render_template("wc.html", body=body)
+    return render_template("app.html", body=body)
 
 
-@app.get("/client-billing")
+@app.get("/widget-billing")
 def client_billing():
-    body = app_client_billing_page(debug=DZN_DEBUG)
-    return render_template("wc.html", body=body)
-
-
-@app.get("/x")
-def x():
-    APPBAR = 164      # px  -> your appbar row height
-    SIDEBAR = 240    # px  -> your sidebar column width
-    HERO_H = "10vh"  #     -> your hero row height (already in rows())
-
-
-    DashboardLayout = (
-        layout_builder()
-        .columns(left_sidebar=SIDEBAR, foo="1fr", main="2fr") # split the page into these columns
-        .rows(appbar=f"{APPBAR}px", hero=HERO_H, subhero="10vh", content="1fr") # create these row items and provide height where 1fr is the remaining portion
-        .region("appbar",  col="left_sidebar", row="appbar", col_span=3) # assign appbar to a starting column (sidebar) and give it a span of two columns which places it over the others
-        .region("sidebar", col="left_sidebar", row="hero", row_span=None) # start under appbar; span rest
-        .region("hero",    col="main",    row="hero")
-        .region("subhero", col="main",    row="subhero")
-        .region("content", col="main",    row="content")
-        .build(name="DashboardLayout")
-    )
-
-    body = DashboardLayout(
-        region_dzn={
-            "appbar": "",
-            "sidebar": "",
-            "hero": "",
-            "subhero": "",
-            "content": "",
-        },
-        debug=True
-    ).render(
-        sidebar=Text(text="A").render(),
-        appbar=Text(text="B").render(),
-        hero=Text(text="C").render(),
-        subhero=Text(text="D").render(),
-        content=Text(text="E").render(),
-    )
-    return render_template("x.html", body=body)
+    body = app_widget_billing_page(debug=DZN_DEBUG)
+    return render_template("app.html", body=body)
 
 
 @app.get("/layout-demo")
