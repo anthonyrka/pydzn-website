@@ -76,7 +76,7 @@ def dashboard():
 
 
 @app.get("/widget-billing")
-def client_billing():
+def widget_billing():
     body = app_widget_billing_page(debug=DZN_DEBUG)
     return render_template("app.html", body=body)
 

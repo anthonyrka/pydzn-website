@@ -55,6 +55,19 @@ AppHeaderMenuLayout = (
     .build(name="AppHeaderMenuLayout")
 )
 
+# ----- Dashboard Page Layout ----#
+AppDashboardLayout = (
+    layout_builder()
+    .fill_height("100%", property="height", apply_to="both") # both refers to the section and it's wrapper so that the page height is restricted to view height
+    .columns(left_section="1fr", center_section="1fr", right_section="1fr")
+    .rows(metrics=480, table="1fr")
+    .region("orders", col="left_section", row="metrics")
+    .region("tasks", col="center_section", row="metrics")
+    .region("customers", col="right_section", row="metrics")
+    .region("table", col="left_section", row="table", col_span="all")
+    .build(name="AppDashboardLayout")
+)
+
 # ----- Billing Page Layout ----#
 WidgetBillingLayout = (
     layout_builder()
@@ -65,3 +78,4 @@ WidgetBillingLayout = (
     .region("widget_program", col="right_section", row="row1")
     .build(name="WidgetBillingLayout")
 )
+

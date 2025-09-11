@@ -3,7 +3,7 @@ from pydzn.components import NavItem, Text
 
 
 def app_header(debug, brand_width=264, app_menu_width=124):
-    nav_variant="dropdown-item"
+    nav_variant="simple-item"
    
     brand = (
         NavItem(
