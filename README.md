@@ -4,7 +4,7 @@ A website made with [pydzn](https://github.com/anthonyrka/pydzn)
 ## What is pydzn
 pydzn or "py design" is a lightweight python library that makes it easy to design, build and serve complex websites all in python. It provides an api into CSS-grid for designing layouts and serve as a light-weight website builder with a built-in, and extendable, component library as well as a library for setting CSS semantic classes.
 
-## A website builder for python developer (not front-end developers)
+## A website builder for python developers (not front-end developers)
 The layout builder contains a debug mode allowing you to visualize the structure of your layout. Each named region is a slot which can be passed a sub-layout or a component in the layout's render function.
 
 <p align="center">
