@@ -1,4 +1,4 @@
-from layouts.saas_app import SideBarMenuLayout
+from layouts.app import SideBarMenuLayout
 from pydzn.components import NavItem, Text
 
 

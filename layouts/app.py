@@ -7,6 +7,7 @@ from pydzn.grid_builder import layout_builder
 LEFT_SIDEBAR_WIDTH=128 # the width of the sidebar
 MAIN_SHARE="1fr" # remaining share of the space
 HEADER_HEIGHT=108
+HEADER_HEIGHT_MOBILE=108
 MENU_ITEM_HEIGHT=HEADER_HEIGHT
 BRAND_WIDTH=264
 APP_MENU_WIDTH=124
@@ -43,7 +44,7 @@ AppMainMobileLayout = (
     layout_builder()
     .fill_height("100vh", property="height")
     .columns(main_column="1fr")
-    .rows(header_row=HEADER_HEIGHT, content_row="1fr")
+    .rows(header_row=HEADER_HEIGHT_MOBILE, content_row="1fr")
     .region("appbar",  col="main_column", row="header_row")
     .region("content", col="main_column", row="content_row")
     .build(name="AppMainMobileLayout")
@@ -90,6 +91,24 @@ AppHeaderMobileMenuLayout = (
     .region("brand", col="brand_col", row="app_header_mobile_row")
     .region("hamburger_menu", col="hamburger_menu_col", row="app_header_mobile_row")
     .build(name="AppHeaderMobileMenuLayout")
+)
+
+# ----- The App's mobile drop down layout ---- #
+AppHeaderMobileMenuDropDownLayout = (
+    layout_builder()
+    .fill_height("100%", property="height")
+    .columns(main_col="1fr")
+    .rows(
+        dashboard_row="1fr", task_row="1fr", customer_row="1fr", orders_row="1fr",
+        notifications_row="1fr", user_profile_row="1fr"
+    )
+    .region("dashboard", col="main_col", row="dashboard_row")
+    .region("tasks", col="main_col", row="task_row")
+    .region("customers", col="main_col", row="customer_row")
+    .region("orders", col="main_col", row="orders_row")
+    .region("notifications", col="main_col", row="notifications_row")
+    .region("user_profile", col="main_col", row="user_profile_row")
+    .build(name="AppHeaderMobileMenuDropDownLayout")
 )
 
 # ----- App Dashboard page desktop menu layout ----#

@@ -1,5 +1,5 @@
 from pydzn.components import Card, Text, Button
-from layouts.saas_app import AppDashboardMobileLayout, AppDashboardLayout
+from layouts.app import AppDashboardMobileLayout, AppDashboardLayout
 from pydzn.responsive import responsive_pair # combines layouts and allows client to choose, as an example, between mobile or desktop 
 
 

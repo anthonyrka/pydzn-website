@@ -1,4 +1,4 @@
-from layouts.saas_app import (
+from layouts.app import (
     AppMainLayout, AppMainMobileLayout, # a page can support multiple layout versions so we'll implement both
     SideBarMenuLayout, AppHeaderMenuLayout,
     HEADER_HEIGHT, MENU_ITEM_HEIGHT, BRAND_WIDTH, APP_MENU_WIDTH

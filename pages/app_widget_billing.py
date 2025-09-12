@@ -1,4 +1,4 @@
-from layouts.saas_app import (
+from layouts.app import (
     AppMainLayout,
     AppMainMobileLayout,
     SideBarMenuLayout,

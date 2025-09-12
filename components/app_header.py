@@ -1,5 +1,9 @@
-from layouts.saas_app import AppHeaderMenuLayout, AppHeaderMobileMenuLayout
-from pydzn.components import NavItem, Text
+from layouts.app import (
+    AppHeaderMenuLayout, 
+    AppHeaderMobileMenuLayout,
+    AppHeaderMobileMenuDropDownLayout
+)
+from pydzn.components import NavItem, Text, HamburgerMenu
 from pydzn.responsive import responsive_pair
 
 
@@ -9,8 +13,10 @@ def app_header(debug, brand_width=264, app_menu_width=124):
     brand = (
         NavItem(
             variant=nav_variant,
-            children=Text("Acme Widget Co").render()
+            children=Text("Acme Widget Co").render(),
             )
+        .center()
+        .as_link("/dashboard")
         .render()
     )
 
@@ -60,11 +66,51 @@ def app_header(debug, brand_width=264, app_menu_width=124):
         user_profile=user_profile,
     )
 
-    mobile_html = AppHeaderMobileMenuLayout(
+
+
+    # # Drop-down panel under the button (no backdrop)
+    # dropdown_btn = HamburgerMenu(
+    #     mode="dropdown",
+    #     dropdown_height=360,
+    #     children="<div class='p-4'>Filters go here</div>",
+    # ).render()
+
+    # tasks = NavItem(variant="simple-item", children=Text("Tasks").render()).render()
+    # customers = NavItem(variant="simple-item", children=Text("Tasks").render()).render()
+    # orders = NavItem(variant="simple-item", children=Text("Tasks").render()).render()
+    # notifications = NavItem(variant="simple-item", children=Text("Tasks").render()).render()
+    # user_profile_mobile = NavItem(variant="simple-item", children=Text("Tasks").render()).render()
+    drop_down_mobile = AppHeaderMobileMenuDropDownLayout(
         debug=debug
     ).render(
+        dashboard=brand,
+        tasks=tasks,
+        customers=customers,
+        orders=orders,
+        notifications=notifications,
+        user_profile=user_profile
+    )
+
+    # Right-side full-height drawer
+    menu_btn = HamburgerMenu(
+        mode="right",
+        drawer_width=320,
+        show_backdrop=True,
+        children=drop_down_mobile,
+        dzn="bg-[white]"   # forwarded to the panel automatically
+    ).render()
+
+
+    mobile_html = AppHeaderMobileMenuLayout(
+        debug=debug,
+        region_dzn = {
+            "brand": "flex justify-center items-center",
+            "hamburger_menu": "flex justify-center items-center"
+        }
+    ).render(
         brand=brand,
-        hamburger_menu=Text(text="Menu").render()
+        hamburger_menu=menu_btn
+        # hamburger_menu=NavItem(variant=nav_variant, children="Menu", dzn="no-underline text-[inherit]").render()
     )
     return responsive_pair(desktop_html=desktop_html, mobile_html=mobile_html)
 
