@@ -9,29 +9,23 @@ def dashboard(debug=False):
         variant="plain",
         children=(
             Text("Built-in Card Variant: plain", tag="h2", dzn="text-center").render() +
-            Text("Orders metrics", dzn="text-center p-4").render() +
-            Button(text="Save", dzn="w-[fit-content] self-center", variant="acme:glass", size="xl").render()
-        )
+            Text("Orders metrics", dzn="text-center p-4").render()        )
     ).render()
 
     tasks_card = Card(
         tag="div",
-        variant="plain",
+        variant="glass",
         children=(
-            Text("Built-in Card Variant: plain", tag="h2", dzn="text-center").render() +
-            Text("Taks metrics", dzn="text-center p-4").render() +
-            Button(text="Save", dzn="w-[fit-content] self-center", variant="acme:glass", size="xl").render()
-        )
+            Text("Built-in Card Variant: glass", tag="h2", dzn="text-center").render() +
+            Text("Taks metrics", dzn="text-center p-4").render()        )
     ).render()
 
     customers_card = Card(
         tag="div",
-        variant="plain",
+        variant="elevated",
         children=(
-            Text("Built-in Card Variant: plain", tag="h2", dzn="text-center").render() +
-            Text("Customers metrics", dzn="text-center p-4").render() +
-            Button(text="Save", dzn="w-[fit-content] self-center", variant="acme:glass", size="xl").render()
-        )
+            Text("Built-in Card Variant: elevated", tag="h2", dzn="text-center").render() +
+            Text("Customers metrics", dzn="text-center p-4").render()        )
     ).render()
 
     mobile_html = AppDashboardMobileLayout(
