@@ -93,26 +93,28 @@ AppHeaderMobileMenuLayout = (
 These layouts contain render functions with a signature containing the named slots for variables, in the case of AppMainMobileLayout, the hamburger_menu slot is passed a built-in hamburger menu component:
 
 ```python
- # Right-side full-height drawer
-    menu_btn = HamburgerMenu(
-        mode="right",
-        drawer_width=320,
-        show_backdrop=True,
-        children=drop_down_mobile,
-        dzn="bg-[white]",   # forwarded to the panel automatically
-        panel_dzn="p-[24px]" # this is how you set the semantic css classes for the drawer (panel)
-    ).render()
+from pydzn.components import NavItem, Text, HamburgerMenu
+
+# Right-side full-height drawer
+menu_btn = HamburgerMenu(
+    mode="right",
+    drawer_width=320,
+    show_backdrop=True,
+    children=drop_down_mobile,
+    dzn="bg-[white]",   # forwarded to the panel automatically
+    panel_dzn="p-[24px]" # this is how you set the semantic css classes for the drawer (panel)
+).render()
 
 
-    mobile_html = AppHeaderMobileMenuLayout(
-        debug=debug,
-        region_dzn = {
-            "brand": "flex justify-center items-center",
-            "hamburger_menu": "flex justify-center items-center"
-        }
-    ).render(
-        brand=brand,
-        hamburger_menu=menu_btn
-    )
+mobile_html = AppHeaderMobileMenuLayout(
+    debug=debug,
+    region_dzn = {
+        "brand": "flex justify-center items-center",
+        "hamburger_menu": "flex justify-center items-center"
+    }
+).render(
+    brand=brand,
+    hamburger_menu=menu_btn
+)
 ```
 
