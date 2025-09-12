@@ -66,24 +66,25 @@ def app_header(debug, brand_width=264, app_menu_width=124):
         user_profile=user_profile,
     )
 
-
-
-    # # Drop-down panel under the button (no backdrop)
-    # dropdown_btn = HamburgerMenu(
-    #     mode="dropdown",
-    #     dropdown_height=360,
-    #     children="<div class='p-4'>Filters go here</div>",
-    # ).render()
-
     # tasks = NavItem(variant="simple-item", children=Text("Tasks").render()).render()
     # customers = NavItem(variant="simple-item", children=Text("Tasks").render()).render()
     # orders = NavItem(variant="simple-item", children=Text("Tasks").render()).render()
     # notifications = NavItem(variant="simple-item", children=Text("Tasks").render()).render()
     # user_profile_mobile = NavItem(variant="simple-item", children=Text("Tasks").render()).render()
+
+    dashboard_mobile = (
+        NavItem(
+            variant=nav_variant,
+            children=Text("Dashboard").render(),
+            )
+        .center()
+        .as_link("/dashboard")
+        .render()
+    )
     drop_down_mobile = AppHeaderMobileMenuDropDownLayout(
         debug=debug
     ).render(
-        dashboard=brand,
+        dashboard=dashboard_mobile,
         tasks=tasks,
         customers=customers,
         orders=orders,
@@ -97,7 +98,8 @@ def app_header(debug, brand_width=264, app_menu_width=124):
         drawer_width=320,
         show_backdrop=True,
         children=drop_down_mobile,
-        dzn="bg-[white]"   # forwarded to the panel automatically
+        dzn="bg-[white]",   # forwarded to the panel automatically
+        panel_dzn="p-[24px]" # this is how you set the semantic css classes for the drawer (panel)
     ).render()
 
 
@@ -110,7 +112,6 @@ def app_header(debug, brand_width=264, app_menu_width=124):
     ).render(
         brand=brand,
         hamburger_menu=menu_btn
-        # hamburger_menu=NavItem(variant=nav_variant, children="Menu", dzn="no-underline text-[inherit]").render()
     )
     return responsive_pair(desktop_html=desktop_html, mobile_html=mobile_html)
 

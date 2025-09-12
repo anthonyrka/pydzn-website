@@ -7,7 +7,7 @@ from pydzn.grid_builder import layout_builder
 LEFT_SIDEBAR_WIDTH=128 # the width of the sidebar
 MAIN_SHARE="1fr" # remaining share of the space
 HEADER_HEIGHT=108
-HEADER_HEIGHT_MOBILE=108
+HEADER_HEIGHT_MOBILE=40
 MENU_ITEM_HEIGHT=HEADER_HEIGHT
 BRAND_WIDTH=264
 APP_MENU_WIDTH=124
@@ -87,7 +87,7 @@ AppHeaderMobileMenuLayout = (
     layout_builder()
     .fill_height("100%", property="height")
     .columns(brand_col=BRAND_WIDTH, spacer_col="1fr", hamburger_menu_col=100)
-    .rows(app_header_mobile_row=f"minmax({HEADER_HEIGHT}px, auto)")
+    .rows(app_header_mobile_row=f"minmax({HEADER_HEIGHT_MOBILE}px, auto)") # this container holds the app header for mobile layout so height must match
     .region("brand", col="brand_col", row="app_header_mobile_row")
     .region("hamburger_menu", col="hamburger_menu_col", row="app_header_mobile_row")
     .build(name="AppHeaderMobileMenuLayout")

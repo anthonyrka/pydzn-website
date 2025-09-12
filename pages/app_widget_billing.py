@@ -6,6 +6,7 @@ from layouts.app import (
     WidgetBillingMobileLayout,
     AppHeaderMenuLayout,
     HEADER_HEIGHT,
+    HEADER_HEIGHT_MOBILE,
     MENU_ITEM_HEIGHT,
     BRAND_WIDTH,
     APP_MENU_WIDTH
@@ -53,7 +54,7 @@ def app_widget_billing_page(debug=False):
 
     mobile = AppMainMobileLayout(
         debug=debug,
-        region_dzn={}
+        region_dzn={"appbar": "sticky top-0"}
     ).render(
         left_sidebar=sidebar(debug=debug, logo_height=HEADER_HEIGHT, nav_item_height=MENU_ITEM_HEIGHT),
         appbar=app_header(debug=debug, brand_width=BRAND_WIDTH, app_menu_width=APP_MENU_WIDTH),

@@ -25,7 +25,7 @@ def app_root_page(debug=False):
     mobile = AppMainMobileLayout(
         debug=debug,
         region_dzn={
-            "appbar": "border-0 border-b border-slate-300 border-solid",
+            "appbar": "sticky top-0 border-0 border-b border-slate-300 border-solid bg-[white] z-[100]", # setting sticky semantic class in order to fix appbar on mobile
         }
     ).render(
         appbar=app_header(debug=debug, brand_width=BRAND_WIDTH, app_menu_width=APP_MENU_WIDTH),
