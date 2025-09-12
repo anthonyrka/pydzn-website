@@ -1,5 +1,6 @@
-from layouts.saas_app import AppHeaderMenuLayout
+from layouts.saas_app import AppHeaderMenuLayout, AppHeaderMobileMenuLayout
 from pydzn.components import NavItem, Text
+from pydzn.responsive import responsive_pair
 
 
 def app_header(debug, brand_width=264, app_menu_width=124):
@@ -48,7 +49,7 @@ def app_header(debug, brand_width=264, app_menu_width=124):
         .render()
     )
 
-    return AppHeaderMenuLayout(
+    desktop_html = AppHeaderMenuLayout(
         debug=debug
     ).render(
         brand=brand,
@@ -58,3 +59,12 @@ def app_header(debug, brand_width=264, app_menu_width=124):
         notifications=notifications,
         user_profile=user_profile,
     )
+
+    mobile_html = AppHeaderMobileMenuLayout(
+        debug=debug
+    ).render(
+        brand=brand,
+        hamburger_menu=Text(text="Menu").render()
+    )
+    return responsive_pair(desktop_html=desktop_html, mobile_html=mobile_html)
+

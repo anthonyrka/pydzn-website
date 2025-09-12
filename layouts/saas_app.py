@@ -39,14 +39,14 @@ row:content_row     region:content
 
 The layout accepts the following components in render function signature: appbar, content
 """
-AppMobileMainLayout = (
+AppMainMobileLayout = (
     layout_builder()
     .fill_height("100vh", property="height")
     .columns(main_column="1fr")
     .rows(header_row=HEADER_HEIGHT, content_row="1fr")
     .region("appbar",  col="main_column", row="header_row")
     .region("content", col="main_column", row="content_row")
-    .build(name="AppMobileMainLayout")
+    .build(name="AppMainMobileLayout")
 )
 
 # ---- This is the sidebar menu slots ---#
@@ -64,11 +64,11 @@ SideBarMenuLayout = (
     .build(name="SideBarMenuLayout")
 )
 
-# ----- Appheader menu slots -----#
+# ----- App header menu slots -----#
 AppHeaderMenuLayout = (
     layout_builder()
     # make the inner grid fill the parent (the appbar row), not the viewport
-    .fill_height("100%", property="height")     # was min-height:100vh (implicit default)
+    .fill_height("100%", property="height") # was min-height:100vh (implicit default)
     .columns(brand=BRAND_WIDTH, spacer="1fr", tasks=APP_MENU_WIDTH, customers=APP_MENU_WIDTH, orders=APP_MENU_WIDTH, notifications=APP_MENU_WIDTH, user_profile=APP_MENU_WIDTH)
     .rows(app_header_main=f"minmax({HEADER_HEIGHT}px, auto)") # these items don't take up the full height of the app header unless you set it here
     .region("brand", col="brand", row="app_header_main")
@@ -81,33 +81,19 @@ AppHeaderMenuLayout = (
     .build(name="AppHeaderMenuLayout")
 )
 
-# # ----- Dashboard Page Layout ----#
-# AppDashboardLayout = (
-#     layout_builder()
-#     .fill_height("100%", property="height", apply_to="both") # both refers to the section and it's wrapper so that the page height is restricted to view height
-#     .columns(left_section="1fr", center_section="1fr", right_section="1fr")
-#     .rows(metrics=480, table="1fr")
-#     .region("orders", col="left_section", row="metrics")
-#     .region("tasks", col="center_section", row="metrics")
-#     .region("customers", col="right_section", row="metrics")
-#     .region("table", col="left_section", row="table", col_span="all")
-#     .build(name="AppDashboardLayout")
-# )
-
-# layouts/saas_app.py (add these)
-AppDashboardLayout_sm = (
+# ----- App header mobile menu layout ----#
+AppHeaderMobileMenuLayout = (
     layout_builder()
-    .fill_height("100%", property="height", apply_to="both")
-    .columns(main="1fr")
-    .rows(r1="auto", r2="auto", r3="auto", r4="1fr")
-    .region("orders",    col="main", row="r1")
-    .region("tasks",     col="main", row="r2")
-    .region("customers", col="main", row="r3")
-    .region("table",     col="main", row="r4")
-    .build(name="AppDashboardLayout_sm")
+    .fill_height("100%", property="height")
+    .columns(brand_col=BRAND_WIDTH, spacer_col="1fr", hamburger_menu_col=100)
+    .rows(app_header_mobile_row=f"minmax({HEADER_HEIGHT}px, auto)")
+    .region("brand", col="brand_col", row="app_header_mobile_row")
+    .region("hamburger_menu", col="hamburger_menu_col", row="app_header_mobile_row")
+    .build(name="AppHeaderMobileMenuLayout")
 )
 
-AppDashboardLayout_md_lg = (
+# ----- App Dashboard page desktop menu layout ----#
+AppDashboardLayout = (
     layout_builder()
     .fill_height("100%", property="height", apply_to="both")
     .columns(left_section="1fr", center_section="1fr", right_section="1fr")
@@ -116,12 +102,23 @@ AppDashboardLayout_md_lg = (
     .region("tasks",     col="center_section", row="metrics")
     .region("customers", col="right_section",  row="metrics")
     .region("table",     col="left_section",   row="table", col_span="all")
-    .build(name="AppDashboardLayout_md_lg")
+    .build(name="AppDashboardLayout")
+)
+
+AppDashboardMobileLayout = (
+    layout_builder()
+    .fill_height("100%", property="height", apply_to="both")
+    .columns(main="1fr")
+    .rows(r1="auto", r2="auto", r3="auto", r4="1fr")
+    .region("orders",    col="main", row="r1")
+    .region("tasks",     col="main", row="r2")
+    .region("customers", col="main", row="r3")
+    .region("table",     col="main", row="r4")
+    .build(name="AppDashboardMobileLayout")
 )
 
 
-
-# ----- Billing Page Layout ----#
+# ----- Billing Page Layout Desktop ----#
 WidgetBillingLayout = (
     layout_builder()
     .fill_height("100%", property="height", apply_to="both") # both refers to the section and it's wrapper so that the page height is restricted to view height
@@ -132,3 +129,14 @@ WidgetBillingLayout = (
     .build(name="WidgetBillingLayout")
 )
 
+
+# ----- Billing Page Layout Mobile ----#
+WidgetBillingMobileLayout = (
+    layout_builder()
+    .fill_height("100%", property="height", apply_to="both") # both refers to the section and it's wrapper so that the page height is restricted to view height
+    .columns(main_col="1fr")
+    .rows(row1="1fr", row2="1fr")
+    .region("widget_billing", col="main_col", row="row1")
+    .region("widget_program", col="main_col", row="row2")
+    .build(name="WidgetBillingLayout")
+)

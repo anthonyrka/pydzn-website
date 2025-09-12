@@ -1,5 +1,5 @@
 from pydzn.components import Card, Text, Button
-from layouts.saas_app import AppDashboardLayout_sm, AppDashboardLayout_md_lg
+from layouts.saas_app import AppDashboardMobileLayout, AppDashboardLayout
 from pydzn.responsive import responsive_pair # combines layouts and allows client to choose, as an example, between mobile or desktop 
 
 
@@ -14,12 +14,12 @@ def dashboard(debug=False):
     v1_btn = Button(text="Save", dzn="w-[fit-content] self-center", variant="acme:glass", size="xl")
     v1_card = Card(tag="div", variant="plain", children=v1_txt.render() + sub_txt.render() + v1_btn.render()).render()
 
-    mobile_html = AppDashboardLayout_sm(
+    mobile_html = AppDashboardMobileLayout(
         debug=debug,
         region_dzn={"orders":"p-4","tasks":"p-4","customers":"p-4"}
     ).render(orders=v1_card, tasks=v1_card, customers=v1_card)
 
-    desktop_html = AppDashboardLayout_md_lg(
+    desktop_html = AppDashboardLayout(
         debug=debug,
         region_dzn={"orders":"p-4","tasks":"p-4","customers":"p-4"}
     ).render(orders=v1_card, tasks=v1_card, customers=v1_card)

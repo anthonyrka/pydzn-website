@@ -1,5 +1,5 @@
 from layouts.saas_app import (
-    AppMainLayout, AppMobileMainLayout, # a page can support multiple layout versions so we'll implement both
+    AppMainLayout, AppMainMobileLayout, # a page can support multiple layout versions so we'll implement both
     SideBarMenuLayout, AppHeaderMenuLayout,
     HEADER_HEIGHT, MENU_ITEM_HEIGHT, BRAND_WIDTH, APP_MENU_WIDTH
 )
@@ -22,7 +22,7 @@ def app_root_page(debug=False):
         content=dashboard(debug=debug),
     )
 
-    mobile = AppMobileMainLayout(
+    mobile = AppMainMobileLayout(
         debug=debug,
         region_dzn={
             "appbar": "border-0 border-b border-slate-300 border-solid",

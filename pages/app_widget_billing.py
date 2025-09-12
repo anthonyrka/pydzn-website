@@ -1,7 +1,9 @@
 from layouts.saas_app import (
     AppMainLayout,
+    AppMainMobileLayout,
     SideBarMenuLayout,
     WidgetBillingLayout,
+    WidgetBillingMobileLayout,
     AppHeaderMenuLayout,
     HEADER_HEIGHT,
     MENU_ITEM_HEIGHT,
@@ -11,6 +13,7 @@ from layouts.saas_app import (
 from pydzn.components import Text
 from components.sidebar import sidebar
 from components.app_header import app_header
+from pydzn.responsive import responsive_pair
 
 
 def app_widget_billing_page(debug=False):
@@ -18,7 +21,7 @@ def app_widget_billing_page(debug=False):
     This the client billing page of the app
     """
     
-    billing_content = WidgetBillingLayout(
+    desktop_billing_content = WidgetBillingLayout(
         debug=debug,
         region_dzn={
             "widget_billing": "border-0 border-r border-slate-300 border-solid"
@@ -28,7 +31,15 @@ def app_widget_billing_page(debug=False):
             widget_program=Text(text="Widget Attributes").render()
             )
 
-    body = AppMainLayout(
+    mobile_billing_content = WidgetBillingMobileLayout(
+        debug=debug,
+        region_dzn = {},
+    ).render(
+        widget_billing=Text(text="Widget Billing").render(),
+        widget_program=Text(text="Widget Attributes").render()
+    )
+
+    desktop = AppMainLayout(
         debug=debug,
         region_dzn={
             "left_sidebar": "border-0 border-r border-slate-300 border-solid",
@@ -37,7 +48,16 @@ def app_widget_billing_page(debug=False):
     ).render(
         left_sidebar=sidebar(debug=debug, logo_height=HEADER_HEIGHT, nav_item_height=MENU_ITEM_HEIGHT),
         appbar=app_header(debug=debug, brand_width=BRAND_WIDTH, app_menu_width=APP_MENU_WIDTH),
-        content=billing_content,
+        content=desktop_billing_content,
     )
 
-    return body
+    mobile = AppMainMobileLayout(
+        debug=debug,
+        region_dzn={}
+    ).render(
+        left_sidebar=sidebar(debug=debug, logo_height=HEADER_HEIGHT, nav_item_height=MENU_ITEM_HEIGHT),
+        appbar=app_header(debug=debug, brand_width=BRAND_WIDTH, app_menu_width=APP_MENU_WIDTH),
+        content=mobile_billing_content,
+    )
+
+    return responsive_pair(desktop_html=desktop, mobile_html=mobile)
