@@ -23,6 +23,7 @@ def app_header(debug, brand_width=264, app_menu_width=124):
     tasks = (
         NavItem(variant=nav_variant, children=Text("Tasks").render())
         .center() # x+y+text centering
+        .as_link("/x")
         .render()
     )
 

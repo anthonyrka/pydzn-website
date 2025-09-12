@@ -1,5 +1,5 @@
 from flask import Flask, Response, render_template
-from pydzn.dzn import compile_used_css
+from pydzn.dzn import compile_used_css, register_dzn_classes
 from pages.app_root import app_root_page
 from pages.app_widget_billing import app_widget_billing_page
 from pages.marketing_home import marketing_home_page
@@ -46,6 +46,11 @@ def register_project_variants():
                 "bg-[rgb(220,38,38)] text-[white] "
                 "shadow-md hover:shadow-lg"
             ),
+            "warning": (
+                "rounded-sm border-0 "
+                "bg-[black] text-[white] "
+                "shadow-md hover:shadow-lg"
+            ),
         },
         sizes={
             "sm": "px-3 py-1",
@@ -78,6 +83,68 @@ def dashboard():
 @app.get("/widget-billing")
 def widget_billing():
     body = app_widget_billing_page(debug=DZN_DEBUG)
+    return render_template("app.html", body=body)
+
+@app.get("/x")
+def experimental():
+    ExperimentalLayout = (
+        layout_builder()
+        .fill_height("100vh", property="height")
+        .columns(col0="1fr", col1="1fr")
+        .rows(row0="1fr", row1="1fr")
+        .region("a", col="col0", row="row0")
+        .region("b", col="col1", row="row0")
+        .region("c", col="col0", row="row1")
+        .region("d", col="col1", row="row1")
+        .build(name="ExperimentalLayout")
+    )
+    register_dzn_classes('bg-[green]')
+
+    btn0 = Button(
+        id="btn-0",
+        text="A",
+        variant="acme:danger",
+        size="xl",
+        **{
+            "hx-on:click": (
+                "var d=document.getElementById('btn-1');"
+                "d.style.setProperty('background-color','blue','important');"
+                "console.log(d)"
+            )
+        })
+    btn1 = Button(
+        id="btn-1",
+        text="B",
+        variant="acme:warning",
+        size="xl",
+        **{
+            "hx-on:click": (
+                "var d=document.getElementById('btn-0');"
+                "d.style.setProperty('background-color','green','important');"
+                "console.log(d)"
+            )
+        }
+    
+    )
+    btn2 = Button(text="C", variant="solid-primary", size="xl")
+    btn3 = Button(text="D", variant="outline-primary", size="xl")
+    
+
+    body = ExperimentalLayout(
+        debug=True,
+        region_dzn={
+            "a": "flex justify-center items-center",
+            "b": "flex justify-center items-center",
+            "c": "flex justify-center items-center",
+            "d": "flex justify-center items-center"
+        }
+        ).render(
+            a=btn0.render(),
+            b=btn1.render(),
+            c=btn2.render(),
+            d=btn3.render(),
+        )
+    # body = app_widget_billing_page(debug=DZN_DEBUG)
     return render_template("app.html", body=body)
 
 
