@@ -11,7 +11,7 @@ from pydzn.grid_builder import layout_builder
 # Button.set_default_choices(variant="acme:danger", size="lg") # set project defaults
 
 # Set to True if you want to see layout red dotted
-DZN_DEBUG=False
+DZN_DEBUG=True
 
 app = Flask(__name__)
 
