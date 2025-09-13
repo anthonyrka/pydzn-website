@@ -11,7 +11,7 @@ from pydzn.grid_builder import layout_builder
 # Button.set_default_choices(variant="acme:danger", size="lg") # set project defaults
 
 # Set to True if you want to see layout red dotted
-DZN_DEBUG=True
+DZN_DEBUG=False
 
 app = Flask(__name__)
 
@@ -51,6 +51,16 @@ def register_project_variants():
                 "bg-[black] text-[white] "
                 "shadow-md hover:shadow-lg"
             ),
+            "danger-outline": (
+                "rounded-sm border border-[2px] bg-[white] text-[red] border-red-500"
+            ),
+            "warning-outline": (
+                "rounded-sm border border-[2px] bg-[white] "
+                "text-[rgb(234,88,12)] "      # ~orange-600
+                "border-[rgb(245,158,11)]"    # ~amber-500
+            )
+
+
         },
         sizes={
             "sm": "px-3 py-1",
@@ -112,22 +122,39 @@ def experimental():
                 "console.log(d)"
             )
         })
+
     btn1 = Button(
         id="btn-1",
         text="B",
         variant="acme:warning",
-        size="xl",
-        **{
-            "hx-on:click": (
-                "var d=document.getElementById('btn-0');"
-                "d.style.setProperty('background-color','green','important');"
-                "console.log(d)"
-            )
-        }
+        size="xl"
+        ).hx_on(
+        "click",
+        """
+        var d=document.getElementById('btn-0');
+        d.style.setProperty('background-color','green','important');
+        console.log(d)
+        """
+        )
+
+    # targets the outerHtml of 
+    btn2 = Button(
+        text="C",
+        variant="solid-primary",
+        size="xl").hx_post(
+            "/swap-x-card"
+            ).hx_on(
+                "click", "console.log('Clicked C Btn');"
+                ).hx_target(
+                    f"#foo-title"
+                    ).hx_swap("outerHTML")
     
-    )
-    btn2 = Button(text="C", variant="solid-primary", size="xl")
-    btn3 = Button(text="D", variant="outline-primary", size="xl")
+    # btn3 = Button(text="D", variant="outline-primary", size="xl")hx_on("click", "console.log('clicked C)")
+
+    card_title = Text(id="foo-title", text="Default Title", tag="h2")
+    card_subtext = Text(id="foo-subtext", text="Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
+    card0 = Card(id="foo-card", tag="div", variant="elevated", children=card_title.render() + card_subtext.render())
+    print(card0.id)
     
 
     body = ExperimentalLayout(
@@ -142,10 +169,20 @@ def experimental():
             a=btn0.render(),
             b=btn1.render(),
             c=btn2.render(),
-            d=btn3.render(),
+            d=card0.render(),
         )
     # body = app_widget_billing_page(debug=DZN_DEBUG)
     return render_template("app.html", body=body)
+
+
+@app.post("/swap-x-card")
+def swap_x_card():
+    print("*** called swap x card ***")
+    card_title = Text(id="foo-title", text="New Title", tag="h2")
+    # card_subtext = Text(id="foo-subtext", text="Lorem ipsum foo")
+    # Return the replacement node with the SAME id that btn2 targets
+    # card0 = Card(id="foo-card", tag="div", variant="elevated", children=card_title.render() + card_subtext.render())
+    return card_title.render(), 200, {"Content-Type": "text/html; charset=utf-8"}
 
 
 @app.get("/layout-demo")
