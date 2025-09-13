@@ -56,8 +56,12 @@ def register_project_variants():
             ),
             "warning-outline": (
                 "rounded-sm border border-[2px] bg-[white] "
-                "text-[rgb(234,88,12)] "      # ~orange-600
-                "border-[rgb(245,158,11)]"    # ~amber-500
+                "text-[#DCAE24] "      # ~orange-600
+                "border-[#DCAE24]"    # ~amber-500
+            ),
+            "neutral-outline": (
+                "rounded-sm border border-[2px] bg-[white] border-slate-400 "
+                "text-slate-500"
             )
 
 

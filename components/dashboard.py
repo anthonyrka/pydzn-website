@@ -1,11 +1,11 @@
 from pydzn.grid_builder import layout_builder
-from pydzn.components import Text, Button
+from pydzn.components import Text, Button, Table
 from pydzn.responsive import responsive_pair
 
 
 DashboardLayout = (
     layout_builder()
-    .fill_height("100vh", property="min-height")
+    .fill_height("auto", property="height")
     .columns(c0="1fr", c1="1fr", c2="1fr", c3="1fr")
     .rows(r0="1fr", r1="3fr")
     .region("tasks", row="r0", col="c0", col_span=1)
@@ -18,7 +18,7 @@ DashboardLayout = (
 
 DashboardMobileLayout = (
     layout_builder()
-    .fill_height("100vh", property="min-height")
+    .fill_height("auto", property="height")
     .columns(c0="1fr")
     .rows(r0="1fr", r1="1fr", r2="1fr", r3="1fr", r4="3fr")
     .region("tasks", row="r0", col="c0")
@@ -32,7 +32,7 @@ DashboardMobileLayout = (
 
 MetricCardLayout = (
     layout_builder()
-    .fill_height("100%", property="height")
+    .fill_height("auto", property="height")
     .columns(c0="1fr")
     .rows(r0="40px", r1="40px", r2="60px")
     .region("title", row="r0", col="c0", col_span=1)
@@ -41,7 +41,38 @@ MetricCardLayout = (
     .build(name="MetricCardLayout")
 )
 
-def dashboard_v2(debug):
+cols = [
+    {"key": "id", "label": "ID", "sortable": True, "width": "80px", "align": "right"},
+    {"key": "name", "label": "Name", "sortable": True},
+    {"key": "status", "label": "Status", "sortable": True, "align": "center"},
+]
+
+rows = [
+    {"id": "1", "name": "Widget A", "status": "<span class='text-[green]'>OK</span>"},
+    {"id": "2", "name": "Widget B", "status": "<span class='text-[red]'>Fail</span>"},
+    {"id": "3", "name": "Widget C", "status": "<span class='text-[red]'>Fail</span>"},
+    {"id": "4", "name": "Widget D", "status": "<span class='text-[green]'>OK</span>"},
+]
+
+table = Table(
+    columns=cols,
+    rows=rows,
+    sort_url="/tables/inventory",     # your endpoint should re-render this Table with new sort
+    sort_key="name",
+    sort_dir="asc",
+    export_url="/tables/inventory/export.csv",  # plain navigation for file download
+    add_column_url="/tables/inventory/add-col", # returns updated Table HTML
+    show_toolbar=True,
+    striped=True,
+    variant="surface",  # "minimal" | "soft" | "outlined"
+    size="lg",          # "sm" | "md" | "lg"
+    tone="primary",     # "primary" | "danger" | "success"
+)
+
+table_html = table.render()
+
+
+def dashboard(debug):
     task_actions = (
         Button(text="Late", variant="acme:danger-outline", size="sm", dzn="m-[4px]").render() +
         Button(text="Shipping", variant="acme:danger-outline", size="sm", dzn="m-[4px]").render()
@@ -80,7 +111,7 @@ def dashboard_v2(debug):
         )
 
     opportunity_actions = (
-        Button(text="Accounts receivable", variant="acme:glass", size="sm", dzn="m-[4px]").render() 
+        Button(text="Accounts receivable", variant="acme:neutral-outline", size="sm", dzn="m-[4px]").render() 
         )
 
     opportunity = MetricCardLayout(
@@ -98,7 +129,7 @@ def dashboard_v2(debug):
         )
 
     revenue_actions = (
-        Button(text="Collections management", variant="acme:glass", size="sm", dzn="m-[4px]").render() 
+        Button(text="Collections management", variant="acme:neutral-outline", size="sm", dzn="m-[4px]").render() 
         )
 
     revenue = MetricCardLayout(
@@ -122,11 +153,13 @@ def dashboard_v2(debug):
             "quotes": "p-4 ml-[4px] mt-[24px] mr-[8px] rounded-sm border border-[1px] border-gray-100",
             "opportunity": "p-4 ml-[4px] mt-[24px] mr-[8px] rounded-sm border border-[1px] border-gray-100",
             "revenue": "p-4 ml-[4px] mt-[24px] mr-[18px] rounded-sm border border-[1px] border-gray-100",
+            "tabular": "p-4"
         }).render(
         tasks=tasks,
         quotes=quotes,
         opportunity=opportunity,
-        revenue=revenue
+        revenue=revenue,
+        tabular=table_html
     )
 
     mobile_html = DashboardMobileLayout(
